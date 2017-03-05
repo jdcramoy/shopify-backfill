@@ -20,6 +20,8 @@ START_DATE = '2016-01-01T00:00:00-04:00'
 END_DATE = '2016-12-31T00:00:00-04:00'
 #list to indicate what financial_status to filter. This way, we can add whatever statuses for which want to filter. I operated on the assumption that 'paid' was the status that meant the order is complete, after referring to the shopify docs. However, the script will work either way.
 ORDER_STATUS = ['paid']
+ #It was unclear what constituted the date of the order, so I used ['created_at']. However, this can easily be swapped out with ['updated_at'] or ['processed_at'] by just swapping out the property below in the TIME_TYPE variable.
+TIME_TYPE = 'created_at'
 # just some abbreviation for pretty print
 p = pprint
 #<=========================== Main Functions ===============================>
@@ -50,8 +52,8 @@ def main():
                 for item in orders:
                     #create if statement to evaluate if the orders financial_status == 'paid'(this can be ) and that the
                     #date range is correct for 2016
-                    #It was unclear what constituted the date of the order, so I used ['created_at']. However, this can easily be swapped out with ['updated_at'] or ['processed_at'] by just swapping out the property in 4 spots.
-                    if item['created_at'] > START_DATE and item['created_at'] < END_DATE and item['financial_status'] in ORDER_STATUS:
+
+                    if item[TIME_TYPE] > START_DATE and item[TIME_TYPE] < END_DATE and item['financial_status'] in ORDER_STATUS:
                         #increment order counter for testing and QA
                         order_count+=1
                         #print paid status, Date Ordered, Email, order count for QA
@@ -103,13 +105,16 @@ def main():
                         'Name' : lineItem['name'],
                         'Quantity' : lineItem['quantity']
                     },
-                    'time' : int(convert_to_unix(iso8601.parse_date(item['created_at'])))
+                    'time' : int(convert_to_unix(iso8601.parse_date(item[TIME_TYPE])))
                 }
                 #use json.dumps to properly format json string before base64 encoding.
                 ordered_data = json.dumps(ordered_data)
                 #make call for the Ordered Product
                 response = requests.get(url, params={'data': base64.urlsafe_b64encode(str(ordered_data))})
-                print response.content
+                if response.content == '1':
+                    print response.content, '| Success!'
+                else:
+                    print response.content, '| Something Went Wrong'
             #quick and dirty hack to remove unicode 'u's from list for readability in Klaviyo.
             items = [ast.literal_eval(json.dumps(items))]
             #make Placed Order call for each item in orders
@@ -130,12 +135,15 @@ def main():
                         'Discount Value' : item['total_discounts'],
                         'Items' : items, #each item from line item will be
                     },
-                    'time' : int(convert_to_unix(iso8601.parse_date(item['created_at'])))
+                    'time' : int(convert_to_unix(iso8601.parse_date(item[TIME_TYPE])))
             }
             #use json.dumps to properly format json string before base64 encoding.
             placedOrder_data = json.dumps(placedOrder_data)
             resp = requests.get(url, params={'data':base64.urlsafe_b64encode(str(placedOrder_data))})
-            print resp.content
+            if resp.content == '1':
+                print resp.content, '| Success!'
+            else:
+                print resp.content, '| Something Went Wrong'
     #call functions
     send_data(get_orders())
 #call main function
