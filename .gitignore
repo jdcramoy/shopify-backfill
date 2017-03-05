@@ -1,2 +1,5 @@
 /.DS_Store
 /settings.py
+/venv
+/settings.pyc
+/timeconvert.py
