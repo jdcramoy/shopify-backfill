@@ -58,7 +58,6 @@ def main():
                 for item in orders:
                     #create if statement to evaluate if the orders financial_status == 'paid'(this can be ) and that the
                     #date range is correct for 2016
-
                     if item[TIME_TYPE] > START_DATE and item[TIME_TYPE] < END_DATE and item['financial_status'] in ORDER_STATUS:
                         #increment order counter for testing and QA
                         order_count+=1
