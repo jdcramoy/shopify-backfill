@@ -79,7 +79,7 @@ def main():
         #iterate through items in orders to append data and make Placed Order Calls.
         # In the case that there is more than one order, this allows me to add each one to properties['items'].
         for item in orders:
-            #lists to populate with data so it can be passed to the 'properties' parameter.
+            #lists to populate with data so it can be passed to json object.
             #scoped inside loop so it clears out once the loop iterates, allowing it to build from scratch each time.
             items = []
             item_names = []
