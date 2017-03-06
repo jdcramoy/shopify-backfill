@@ -20,7 +20,7 @@ START_DATE = '2016-01-01T00:00:00-04:00'
 END_DATE = '2016-12-31T00:00:00-04:00'
 #list to indicate what financial_status to filter. This way, I can add whatever statuses for which I want to filter.
 #I operated on the assumption that 'paid' was the status that meant the order is complete, after referring to the
-#shopify docs. However, the script will work either way.
+#shopify docs. However, the script will work either way by adding the desired statuses to the list below.
 ORDER_STATUS = ['paid']
 #It was unclear what constituted the date of the order, so I used ['created_at'].
 #However, this can easily be swapped out with ['updated_at'] or ['processed_at'] by just
