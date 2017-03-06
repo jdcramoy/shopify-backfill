@@ -18,7 +18,7 @@ SHOPIFY_PATH = settings.shopify_path
 #Variables to allow for date filtering of orders by date.
 START_DATE = '2016-01-01T00:00:00-04:00'
 END_DATE = '2016-12-31T00:00:00-04:00'
-#list to indicate what financial_status to filter. This way, we can add whatever statuses for which want to filter.
+#list to indicate what financial_status to filter. This way, I can add whatever statuses for which I want to filter.
 #I operated on the assumption that 'paid' was the status that meant the order is complete, after referring to the
 #shopify docs. However, the script will work either way.
 ORDER_STATUS = ['paid']
