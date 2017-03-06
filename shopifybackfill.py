@@ -18,19 +18,19 @@ SHOPIFY_PATH = settings.shopify_path
 #Variables to allow for date filtering of orders by date.
 START_DATE = '2016-01-01T00:00:00-04:00'
 END_DATE = '2016-12-31T00:00:00-04:00'
-#list to indicate what financial_status to filter. This way, we can add whatever statuses for which want to filter. 
-#I operated on the assumption that 'paid' was the status that meant the order is complete, after referring to the 
+#list to indicate what financial_status to filter. This way, we can add whatever statuses for which want to filter.
+#I operated on the assumption that 'paid' was the status that meant the order is complete, after referring to the
 #shopify docs. However, the script will work either way.
 ORDER_STATUS = ['paid']
 #It was unclear what constituted the date of the order, so I used ['created_at'].
-#However, this can easily be swapped out with ['updated_at'] or ['processed_at'] by just 
+#However, this can easily be swapped out with ['updated_at'] or ['processed_at'] by just
 #swapping out the property below in the TIME_TYPE variable.
 TIME_TYPE = 'created_at'
 # just some abbreviation for pretty print
 p = pprint
 #<=========================== Main Functions ===============================>
 def main():
-    #function to handle timestamp conversion, from Datetime to Unix to be able to pass unix time 
+    #function to handle timestamp conversion, from Datetime to Unix to be able to pass unix time
     #to Klaviyo as per instructions.
     def convert_to_unix(dt):
         assert dt.tzinfo is not None and dt.utcoffset() is not None
@@ -41,7 +41,7 @@ def main():
     def get_orders():
         #create empty list to push order data to.
         order_object = []
-        #order_count so that I can check the number of orders that evaluate to True from the if 
+        #order_count so that I can check the number of orders that evaluate to True from the if
         #statement on line 58 (For QA Purposes)
         order_count = 0
         #create URL variable, format with global variables.
@@ -73,7 +73,7 @@ def main():
             print e
         #return order_object to pass to send_data
         return order_object
-    #function to make the http requests through the Klaviyo Python library.
+    #function to make the http requests to send data
     def send_data(orders):
         url = ('https://a.klaviyo.com/api/track')
         #iterate through items in orders to append data and make Placed Order Calls.
